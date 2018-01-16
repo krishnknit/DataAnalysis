@@ -16,9 +16,9 @@
 			{% endif %}
 			<div class="controls">
 				<div class="col-md-9">
-					{% set class_ = kwagrs.pop('class_', '') %}
-					{% if field.flags.required %}
-						{% set class_ = class_ + ' required' %}
+					{% set class_ = kwargs.pop('class_', '') %}
+            		{% if field.flags.required %}
+                		{% set class_ = class_ + ' required' %}
 					{% endif %}
 					{% if field.type == 'BooleanField' %}
 						<label class="checkbox">
@@ -120,11 +120,31 @@
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ section[0] }}<span class="caret sr-only">(current)</span></a>
 			<ul class="dropdown-menu">
-				<li>
-					{%- for item in navdict[section[0]]|dictsort(by="key") %}
-						<li><a href="{{ item[1] }}"{%- if section[0] == 'RunBooks' %} target="_blank" {%- endif %}>{{ item[0] }}</a></li>
-					{%- endfor %}
-				</li>
+				{%- for item in navdict[section[0]]|dictsort(by="key") %}
+					<li>
+						{%- if section[0] == 'Stress Test' %}
+							<a href="{{ item[1] }}">{{ item[0] }}</a>
+						{%- endif %}
+
+						{%- if section[0] == 'Download Data' %}
+							<a href="{{ item[1] }}">{{ item[0] }}</a>
+						{%- endif %}
+					</li>
+					<ul>
+						{%- if section[0] == 'Scenario' %} 
+							{%- for sdata in navdict[section[0]][item[0]]|dictsort %}
+								<li>{{ sdata[0] }}</li>
+								{%- for data in navdict[section[0]][item[0]][sdata[0]]|dictsort %}
+									<ul>
+										<li>
+											<a href="{{ data[1] }}">{{ data[0] }}</a>
+										</li>
+									</ul>
+								{%- endfor %}
+							{%- endfor %}
+						{%- endif %}
+					</ul>
+				{%- endfor %}
 			</ul>
 		</li>
 	{% endfor %}

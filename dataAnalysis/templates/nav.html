@@ -1,0 +1,38 @@
+<!-- Navigation Bar -->
+
+{%- set navdict = { "Scenario": {
+									"Scenario Generation": {
+															"Historical": { "Create": url_for('histscenario.create'),
+																			"Import": url_for('histscenario.histImport'),
+																			"add/remove": url_for('histscenario.addRemove'),},
+															"Hypothetical": { "Create": 'hyposcenario.create',
+																			  "Import": 'hyposcenario.create',
+																			  "add/remove": 'hyposcenario.create'},
+															"Adhoc": {  "Create": 'adhocscenario.create',
+																		"Import": 'adhocscenario.create',
+																		"add/remove": 'adhocscenario.create'}
+														   },
+								},
+					"Stress Test": {
+								"Google Home": "http://google.com",
+								"Google": "http://google.co.in",
+								"Yahoo": "http://youtube.com",
+								},
+					"Download Data": {
+										"CD/CP Data": url_for('download.download_cdcp'),
+										"Excel": 'download.download_excel',
+										"Database": 'download.download_database'
+									 },
+				}  -%}
+
+{% import "macros.html" as macros %}
+{% block nav %}
+	<nav class="navbar navbar-inverse navbar-default navbar-fixed-top" role="Navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="{{ url_for('home') }}">Data Analysis</a>
+			<ul class="nav navbar-nav">
+				{{ macros.navcontrol(navdict) }}
+			</ul>
+		</div>
+	</nav>
+{% endblock %}
