@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, request, make_response
 from dataAnalysis.download.forms import DownloadCDCPForm
 from dataAnalysis import app, db
 from datetime import date
+import traceback
 import requests
 import pymssql
 import os
@@ -65,6 +66,7 @@ def download_cdcp():
 						cursor.execute("INSERT INTO hist_cd_cp VALUES ('{}', {}, {})".format(dly_dt, fcp_val, nfcp_val))
 						con.commit()
 			except Error as e:
+				app.logger.warning(e)
 				print e
 			finally:
 				cursor.close()
@@ -83,11 +85,6 @@ def getDatabase():
 def getExcel():
 	return "This page is under construction....."
 	#return render_template('histscenario/excel.html')
-
-def insertData(data):
-	con = pymssql.connect(  'IRS_DFM', '', '', '', '')
-
-	cur = con.cursor()
 
 def get_frb_url(dtStart, dtEnd):
 	downloadUrl = app.config['DOWNLOAD_URL']

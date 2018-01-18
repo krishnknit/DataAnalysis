@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% import "macros.html" as macros %}
+{% block scripts %}
+    {{ super() }}
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+         var table = $('#urls').DataTable();
+         $("#urls thead th").each( function ( i ){
+            var name = table.column( i ).header();
+            var spanelt = document.createElement( "button" );
+            spanelt.innerHTML = name.innerHTML;
+
+            $(spanelt).addClass("colvistoggle");
+            $(spanelt).attr("colidx", i);
+
+            $(spanelt).on( 'click', function (e) {
+               e.defaultPrevented();
+               // get column API object
+               var column = table.column( $(this).attr('colidx') );
+               // toggle the visivility
+               column.visible( ! column.visible() );
+            });
+            $("#colvis").append($(spanelt));
+         });
+      });
+
+    </script>
+
+{% endblock %}
+{% block  content %}
+
+<div class="row">
+   <div class="col-lg-1"></div>
+   <div class="col-lg-10">
+      <div class="well well-lg" style="width:100%;overflow-x: auto;overflow-y: auto;">
+         <div class="table-responsive">
+            <table id="urls" name='urls' class="display" cellspacing="0" width="100%">
+               <thead>
+                  <th>Selection</th>
+                  <th>GSD</th>
+                  <th>y1</th>
+                  <th>y2</th>
+                  <th>y3</th>
+                  <th>y5</th>
+                  <th>y7</th>
+                  <th>y10</th>
+                  <th>y20</th>
+                  <th>y30</th>
+                  <th>Driver</th>
+               </thead>
+               <tfoot>
+                  <th>Selection</th>
+                  <th>GSD</th>
+                  <th>y1</th>
+                  <th>y2</th>
+                  <th>y3</th>
+                  <th>y5</th>
+                  <th>y7</th>
+                  <th>y10</th>
+                  <th>y20</th>
+                  <th>y30</th>
+                  <th>Driver</th>
+               </tfoot>
+               <tbody>
+                  {%- for row in rows %}
+                     <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                        <td>{{row[2]}}</td>
+                        <td>{{row[3]}}</td>
+                        <td>{{row[4]}}</td>
+                        <td>{{row[5]}}</td>
+                        <td>{{row[6]}}</td>
+                        <td>{{row[7]}}</td>
+                        <td>{{row[8]}}</td>
+                        <td>{{row[9]}}</td>
+                        <td>{{row[10]}}</td>
+                     </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}
